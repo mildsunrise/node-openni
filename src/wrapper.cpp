@@ -33,8 +33,6 @@ extern "C" {
         
         //Initialize every exposed class
         //TODO
-        
-        printf("Init!\n");
     }
     
     /** Finally, let Node.JS know about our module **/
