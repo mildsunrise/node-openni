@@ -19,28 +19,27 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
+#ifndef NODE_XN_WRAPPERUTILS_H
+#define	NODE_XN_WRAPPERUTILS_H
+
+//OpenNI includes
+#include <XnOpenNI.h>
+
+//Node.JS includes
 #include <v8.h>
 #include <node.h>
-
-#include "Context.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
 
-    extern "C" {
+    //wrap
+    //check
+    //checkValid
 
-        static void init(Handle<Object> module) {
-            //Declare global objects (version, ...)
-            //TODO
-
-            //Initialize every exposed class
-            Context::INIT(module);
-        }
-
-        /** Finally, let Node.JS know about our module **/
-        NODE_MODULE(openni, init);
-    }
+    Handle<Value> new_default(const Arguments& args);
 
 }
+
+#endif	/* NODE_XN_WRAPPERUTILS_H */

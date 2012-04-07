@@ -19,28 +19,37 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#include <v8.h>
-#include <node.h>
+#ifndef NODE_XN_CONTEXT_H
+#define	NODE_XN_CONTEXT_H
 
-#include "Context.h"
+#include "wrapperUtils.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
 
-    extern "C" {
+    class Context: public ObjectWrap {
+    public:
+        /* Factory method(s) */
+        static Context Init();
 
-        static void init(Handle<Object> module) {
-            //Declare global objects (version, ...)
-            //TODO
+        /* Core methods */
+        inline Context(XnContext* const handle) : ptr(handle) {OnConstruct();}
+        ~Context();
 
-            //Initialize every exposed class
-            Context::INIT(module);
-        }
+        /* Copy ctor. */
+        inline Context(const Context& orig) : ptr(orig.ptr) {OnConstruct();}
+        inline Context operator=(const Context& orig) {return Context(orig);}
 
-        /** Finally, let Node.JS know about our module **/
-        NODE_MODULE(openni, init);
-    }
+        /** WRAPPED METHODS **/
+        static void INIT(Handle<Object> ctx);
+        static Handle<Value> initSync(const Arguments& args);
+    private:
+        XnContext* const ptr;
+        void OnConstruct();
+    };
 
 }
+
+#endif	/* NODE_XN_CONTEXT_H */

@@ -19,28 +19,20 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#include <v8.h>
-#include <node.h>
-
-#include "Context.h"
+#include "wrapperUtils.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
 
-    extern "C" {
+    //wrap
+    //check
+    //checkValid
 
-        static void init(Handle<Object> module) {
-            //Declare global objects (version, ...)
-            //TODO
-
-            //Initialize every exposed class
-            Context::INIT(module);
-        }
-
-        /** Finally, let Node.JS know about our module **/
-        NODE_MODULE(openni, init);
+    Handle<Value> new_default(const Arguments& args) {
+        HandleScope scope;
+        return args.This();
     }
 
 }
