@@ -53,7 +53,7 @@ namespace node_xn {
         Persistent<FunctionTemplate> proto = v8::Persistent<FunctionTemplate>::New(protoL);
         proto->InstanceTemplate()->SetInternalFieldCount(1);
         proto->SetClassName(v8::String::NewSymbol("Context"));
-        
+
         //2. Add accessors
 
         //3. Bind methods
@@ -76,5 +76,5 @@ namespace node_xn {
 
         return instH;
     }
-    
+
 }
