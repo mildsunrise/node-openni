@@ -19,34 +19,32 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#include <v8.h>
-#include <node.h>
+#ifndef NODE_XN_GESTURE_GENERATOR_H
+#define	NODE_XN_GESTURE_GENERATOR_H
 
-#include "Context.h"
-#include "ProductionNode.h"
+#include "wrapperUtils.h"
+
 #include "Generator.h"
-#include "GestureGenerator.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
 
-    extern "C" {
+    class GestureGenerator: public Generator {
+    public:
+        /* Copy ctor. */
+        inline GestureGenerator(const GestureGenerator& orig) : Generator(orig) {}
 
-        static void init(Handle<Object> module) {
-            //Declare global objects (version, ...)
-            //TODO
+        /** WRAPPED METHODS **/
+    protected:
+        /* Supertype constructors */
+        inline GestureGenerator(XnNodeHandle handle) : Generator(handle) {}
+        inline GestureGenerator(const ProductionNode& orig) : Generator(orig) {}
+    };
 
-            //Initialize every exposed class
-            Persistent<FunctionTemplate> context   = INIT_Context(module);
-            Persistent<FunctionTemplate> prod_node = INIT_ProductionNode(module);
-            Persistent<FunctionTemplate> generator = INIT_Generator(module, prod_node);
-            Persistent<FunctionTemplate> gesture_g = INIT_GestureGenerator(module, generator);
-        }
-
-        /** Finally, let Node.JS know about our module **/
-        NODE_MODULE(openni, init);
-    }
-
+    /* Initializer */
+    Persistent<FunctionTemplate> INIT_GestureGenerator(Handle<Object> ctx, Persistent<FunctionTemplate> parent);
 }
+
+#endif	/* NODE_XN_GESTURE_GENERATOR_H */

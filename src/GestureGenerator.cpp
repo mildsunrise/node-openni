@@ -19,34 +19,30 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#include <v8.h>
-#include <node.h>
-
-#include "Context.h"
-#include "ProductionNode.h"
-#include "Generator.h"
 #include "GestureGenerator.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
+    
+    Persistent<FunctionTemplate> INIT_GestureGenerator(Handle<Object> ctx, Persistent<FunctionTemplate> parent) {
+        HandleScope scope;
 
-    extern "C" {
+        //1. Declare the class prototype
+        Local<FunctionTemplate> protoL = FunctionTemplate::New(new_default);
+        Persistent<FunctionTemplate> proto = v8::Persistent<FunctionTemplate>::New(protoL);
+        proto->InstanceTemplate()->SetInternalFieldCount(1);
+        proto->Inherit(parent);
+        proto->SetClassName(v8::String::NewSymbol("GestureGenerator"));
 
-        static void init(Handle<Object> module) {
-            //Declare global objects (version, ...)
-            //TODO
+        //2. Add accessors
 
-            //Initialize every exposed class
-            Persistent<FunctionTemplate> context   = INIT_Context(module);
-            Persistent<FunctionTemplate> prod_node = INIT_ProductionNode(module);
-            Persistent<FunctionTemplate> generator = INIT_Generator(module, prod_node);
-            Persistent<FunctionTemplate> gesture_g = INIT_GestureGenerator(module, generator);
-        }
+        //3. Bind methods
 
-        /** Finally, let Node.JS know about our module **/
-        NODE_MODULE(openni, init);
+        //4. Finally, add the things to the target
+        ctx->Set(v8::String::NewSymbol("GestureGenerator"),  proto->GetFunction());
+        return proto;
     }
 
 }

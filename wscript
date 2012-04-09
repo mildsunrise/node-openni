@@ -16,5 +16,6 @@ def build(bld):
     obj.source = ["src/wrapper.cpp","src/wrapperUtils.cpp",
                   "src/Context.cpp",
                   "src/ProductionNode.cpp",
-                  "src/Generator.cpp"]
+                  "src/Generator.cpp",
+                  "src/GestureGenerator.cpp"]
     obj.uselib = ["OpenNI"]
