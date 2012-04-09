@@ -42,12 +42,14 @@ namespace node_xn {
         inline Context(const Context& orig) : ptr(orig.ptr) {OnConstruct();}
 
         /** WRAPPED METHODS **/
-        static Persistent<FunctionTemplate> INIT(Handle<Object> ctx);
         static Handle<Value> initSync(const Arguments& args);
     private:
         XnContextPtr const ptr;
         void OnConstruct();
     };
+
+    /* Initializer */
+    Persistent<FunctionTemplate> INIT_Context(Handle<Object> ctx);
 
 }
 

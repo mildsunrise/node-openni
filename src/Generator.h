@@ -37,13 +37,14 @@ namespace node_xn {
         inline Generator(const Generator& orig) : ProductionNode(orig) {}
         
         /** WRAPPED METHODS **/
-        static Persistent<FunctionTemplate> INIT(Handle<Object> ctx, Persistent<FunctionTemplate> parent);
     protected:
         /* Supertype constructors */
         inline Generator(XnNodeHandle handle) : ProductionNode(handle) {}
         inline Generator(const ProductionNode& orig) : ProductionNode(orig) {}
     };
 
+    /* Initializer */
+    Persistent<FunctionTemplate> INIT_Generator(Handle<Object> ctx, Persistent<FunctionTemplate> parent);
 }
 
 #endif	/* NODE_XN_GENERATOR_H */

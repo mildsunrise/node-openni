@@ -39,7 +39,7 @@ namespace node_xn {
     /** WRAPPED METHODS **/
 
     /* Initializer */
-    Persistent<FunctionTemplate> ProductionNode::INIT(Handle<Object> ctx) {
+    Persistent<FunctionTemplate> INIT_ProductionNode(Handle<Object> ctx) {
         HandleScope scope;
 
         //1. Declare the class prototype

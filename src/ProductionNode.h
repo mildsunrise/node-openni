@@ -39,12 +39,13 @@ namespace node_xn {
         inline ProductionNode(const ProductionNode& orig) : ptr(orig.ptr) {OnConstruct();}
         
         /** WRAPPED METHODS **/
-        static Persistent<FunctionTemplate> INIT(Handle<Object> ctx);
     private:
         void OnConstruct();
         XnNodeHandle const ptr;
     };
 
+    /* Initializer */
+    Persistent<FunctionTemplate> INIT_ProductionNode(Handle<Object> ctx);
 }
 
 #endif	/* NODE_XN_PRODUCTION_NODE_H */

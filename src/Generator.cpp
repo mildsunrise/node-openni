@@ -30,7 +30,7 @@ namespace node_xn {
     /** WRAPPED METHODS **/
 
     /* Initializer */
-    Persistent<FunctionTemplate> Generator::INIT(Handle<Object> ctx, Persistent<FunctionTemplate> parent) {
+    Persistent<FunctionTemplate> INIT_Generator(Handle<Object> ctx, Persistent<FunctionTemplate> parent) {
         HandleScope scope;
 
         //1. Declare the class prototype

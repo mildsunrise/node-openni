@@ -45,7 +45,7 @@ namespace node_xn {
     /** WRAPPED METHODS **/
 
     /* Initializer */
-    Persistent<FunctionTemplate> Context::INIT(Handle<Object> ctx) {
+    Persistent<FunctionTemplate> INIT_Context(Handle<Object> ctx) {
         HandleScope scope;
 
         //1. Declare the class prototype
@@ -59,7 +59,7 @@ namespace node_xn {
         //3. Bind methods
 
         //4. Declare static functions' templates
-        Local<FunctionTemplate> initSyncL = FunctionTemplate::New(initSync, proto->GetFunction());
+        Local<FunctionTemplate> initSyncL = FunctionTemplate::New(Context::initSync, proto->GetFunction());
         Persistent<FunctionTemplate> initSyncP = Persistent<FunctionTemplate>::New(initSyncL);
 
         //5. Finally, add the things to the target

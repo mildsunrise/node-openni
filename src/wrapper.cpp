@@ -38,9 +38,9 @@ namespace node_xn {
             //TODO
 
             //Initialize every exposed class
-            Persistent<FunctionTemplate> context = Context::INIT(module);
-            Persistent<FunctionTemplate> prod_node = ProductionNode::INIT(module);
-            Persistent<FunctionTemplate> generator = Generator::INIT(module, prod_node);
+            Persistent<FunctionTemplate> context = INIT_Context(module);
+            Persistent<FunctionTemplate> prod_node = INIT_ProductionNode(module);
+            Persistent<FunctionTemplate> generator = INIT_Generator(module, prod_node);
         }
 
         /** Finally, let Node.JS know about our module **/
