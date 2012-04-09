@@ -19,63 +19,34 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#include "Context.h"
+#include "Generator.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
 
-    Context Context::Init() {
-        XnContextPtr ptr;
-        xnInit(&ptr);
-        return Context(ptr);
-    }
-
-    void Context::OnConstruct() {
-        //FIXME: we should check if ptr == NULL
-        xnContextAddRef(this->ptr);
-    }
-
-    Context::~Context() {
-        xnContextRelease(this->ptr);
-    }
-
 
     /** WRAPPED METHODS **/
 
     /* Initializer */
-    Persistent<FunctionTemplate> Context::INIT(Handle<Object> ctx) {
+    Persistent<FunctionTemplate> Generator::INIT(Handle<Object> ctx, Persistent<FunctionTemplate> parent) {
         HandleScope scope;
 
         //1. Declare the class prototype
         Local<FunctionTemplate> protoL = FunctionTemplate::New(new_default);
         Persistent<FunctionTemplate> proto = v8::Persistent<FunctionTemplate>::New(protoL);
         proto->InstanceTemplate()->SetInternalFieldCount(1);
-        proto->SetClassName(v8::String::NewSymbol("Context"));
+        proto->Inherit(parent);
+        proto->SetClassName(v8::String::NewSymbol("Generator"));
 
         //2. Add accessors
 
         //3. Bind methods
 
-        //4. Declare static functions' templates
-        Local<FunctionTemplate> initSyncL = FunctionTemplate::New(initSync, proto->GetFunction());
-        Persistent<FunctionTemplate> initSyncP = Persistent<FunctionTemplate>::New(initSyncL);
-
-        //5. Finally, add the things to the target
-        ctx->Set(v8::String::NewSymbol("initSync"), initSyncP->GetFunction());
-        ctx->Set(v8::String::NewSymbol("Context"),  proto->GetFunction());
+        //4. Finally, add the things to the target
+        ctx->Set(v8::String::NewSymbol("Generator"),  proto->GetFunction());
         return proto;
-    }
-
-    /* Static factory methods */
-    Handle<Value> Context::initSync(const Arguments& args) {
-        HandleScope scope;
-
-        Handle<Object> instH = ((Function*)(*args.Data()))->NewInstance();
-        (new Context(Init()))->Wrap(instH);
-
-        return instH;
     }
 
 }

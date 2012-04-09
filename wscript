@@ -15,5 +15,6 @@ def build(bld):
     obj.target = "openni"
     obj.source = ["src/wrapper.cpp","src/wrapperUtils.cpp",
                   "src/Context.cpp",
-                  "src/ProductionNode.cpp"]
+                  "src/ProductionNode.cpp",
+                  "src/Generator.cpp"]
     obj.uselib = ["OpenNI"]

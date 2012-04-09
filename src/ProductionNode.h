@@ -29,18 +29,17 @@ namespace node_xn {
     using namespace v8;
     using namespace node;
     
-    class ProductionNode {
+    class ProductionNode: public ObjectWrap {
     public:
         /* Core methods */
         inline ProductionNode(XnNodeHandle const handle) : ptr(handle) {OnConstruct();}
         ~ProductionNode();
         
         /* Copy ctor. */
-        inline ProductionNode(const ProductionNode& orig) : ptr(orig.ptr) {OnConstruct();};
-        inline ProductionNode operator=(const ProductionNode& orig) {return ProductionNode(orig);}
+        inline ProductionNode(const ProductionNode& orig) : ptr(orig.ptr) {OnConstruct();}
         
         /** WRAPPED METHODS **/
-        static void INIT(Handle<Object> ctx);
+        static Persistent<FunctionTemplate> INIT(Handle<Object> ctx);
     private:
         void OnConstruct();
         XnNodeHandle const ptr;

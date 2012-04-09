@@ -24,6 +24,7 @@
 
 #include "Context.h"
 #include "ProductionNode.h"
+#include "Generator.h"
 
 namespace node_xn {
 
@@ -37,8 +38,9 @@ namespace node_xn {
             //TODO
 
             //Initialize every exposed class
-            Context::INIT(module);
-            ProductionNode::INIT(module);
+            Persistent<FunctionTemplate> context = Context::INIT(module);
+            Persistent<FunctionTemplate> prod_node = ProductionNode::INIT(module);
+            Persistent<FunctionTemplate> generator = Generator::INIT(module, prod_node);
         }
 
         /** Finally, let Node.JS know about our module **/

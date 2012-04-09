@@ -19,36 +19,31 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#ifndef NODE_XN_CONTEXT_H
-#define	NODE_XN_CONTEXT_H
+#ifndef NODE_XN_GENERATOR_H
+#define	NODE_XN_GENERATOR_H
 
 #include "wrapperUtils.h"
+
+#include "ProductionNode.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
-
-    class Context: public ObjectWrap {
+    
+    class Generator: public ProductionNode {
     public:
-        /* Factory method(s) */
-        static Context Init();
-
-        /* Core methods */
-        inline Context(XnContextPtr const handle) : ptr(handle) {OnConstruct();}
-        ~Context();
-
         /* Copy ctor. */
-        inline Context(const Context& orig) : ptr(orig.ptr) {OnConstruct();}
-
+        inline Generator(const Generator& orig) : ProductionNode(orig) {}
+        
         /** WRAPPED METHODS **/
-        static Persistent<FunctionTemplate> INIT(Handle<Object> ctx);
-        static Handle<Value> initSync(const Arguments& args);
-    private:
-        XnContextPtr const ptr;
-        void OnConstruct();
+        static Persistent<FunctionTemplate> INIT(Handle<Object> ctx, Persistent<FunctionTemplate> parent);
+    protected:
+        /* Supertype constructors */
+        inline Generator(XnNodeHandle handle) : ProductionNode(handle) {}
+        inline Generator(const ProductionNode& orig) : ProductionNode(orig) {}
     };
 
 }
 
-#endif	/* NODE_XN_CONTEXT_H */
+#endif	/* NODE_XN_GENERATOR_H */

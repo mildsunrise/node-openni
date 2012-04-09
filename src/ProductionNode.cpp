@@ -39,7 +39,7 @@ namespace node_xn {
     /** WRAPPED METHODS **/
 
     /* Initializer */
-    void ProductionNode::INIT(Handle<Object> ctx) {
+    Persistent<FunctionTemplate> ProductionNode::INIT(Handle<Object> ctx) {
         HandleScope scope;
 
         //1. Declare the class prototype
@@ -54,6 +54,7 @@ namespace node_xn {
 
         //4. Finally, add the things to the target
         ctx->Set(v8::String::NewSymbol("ProductionNode"),  proto->GetFunction());
+        return proto;
     }
 
 }
