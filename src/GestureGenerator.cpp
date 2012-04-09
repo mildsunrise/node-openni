@@ -25,7 +25,11 @@ namespace node_xn {
 
     using namespace v8;
     using namespace node;
-    
+
+    void GestureGenerator::create(const Context& ctx, XnNodeHandle& handle, XnNodeQuery* query) {
+        xnCreateGestureGenerator(ctx.ptr, &handle, query, NULL); //TODO: check status
+    }
+
     Persistent<FunctionTemplate> INIT_GestureGenerator(Handle<Object> ctx, Persistent<FunctionTemplate> parent) {
         HandleScope scope;
 
@@ -43,6 +47,20 @@ namespace node_xn {
         //4. Finally, add the things to the target
         ctx->Set(v8::String::NewSymbol("GestureGenerator"),  proto->GetFunction());
         return proto;
+    }
+    
+    Handle<Value> GestureGenerator::createGestureGeneratorSync(const Arguments& args) {
+        HandleScope scope;
+
+        //Extract arguments
+        Context& ctx = *(Context::Unwrap<Context>(args[0]->ToObject()));
+        
+        Handle<Object> instH = ((Function*)(*args.Data()))->NewInstance();
+        XnNodeHandle handle;
+        create(ctx, handle, NULL);
+        (new GestureGenerator(handle))->Wrap(instH); //FIXME: should we use wrap()?
+        
+        return instH;
     }
 
 }

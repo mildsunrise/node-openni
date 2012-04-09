@@ -26,10 +26,8 @@ namespace node_xn {
     using namespace v8;
     using namespace node;
 
-    Context Context::Init() {
-        XnContextPtr ptr;
-        xnInit(&ptr);
-        return Context(ptr);
+    void Context::Init(XnContextPtr& handle) {
+        xnInit(&handle);//TODO: check status
     }
 
     void Context::OnConstruct() {
@@ -73,7 +71,9 @@ namespace node_xn {
         HandleScope scope;
 
         Handle<Object> instH = ((Function*)(*args.Data()))->NewInstance();
-        (new Context(Init()))->Wrap(instH);
+        XnContextPtr handle;
+        Init(handle);
+        (new Context(handle))->Wrap(instH);
 
         return instH;
     }

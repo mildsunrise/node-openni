@@ -24,6 +24,8 @@
 
 #include "wrapperUtils.h"
 
+#include "Context.h"
+
 namespace node_xn {
 
     using namespace v8;
@@ -42,6 +44,11 @@ namespace node_xn {
     private:
         void OnConstruct();
         XnNodeHandle const ptr;
+        
+        friend class Context;
+        
+        friend class Generator;
+        friend class GestureGenerator;
     };
 
     /* Initializer */

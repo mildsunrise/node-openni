@@ -29,10 +29,15 @@ namespace node_xn {
     using namespace v8;
     using namespace node;
 
+    /* Root class, so forward declarations go here */
+    class ProductionNode;
+    class Generator;
+    class GestureGenerator;
+    
     class Context: public ObjectWrap {
     public:
         /* Factory method(s) */
-        static Context Init();
+        static void Init(XnContextPtr& handle);
 
         /* Core methods */
         inline Context(XnContextPtr const handle) : ptr(handle) {OnConstruct();}
@@ -46,6 +51,10 @@ namespace node_xn {
     private:
         XnContextPtr const ptr;
         void OnConstruct();
+        
+        friend class ProductionNode;
+        friend class Generator;
+        friend class GestureGenerator;
     };
 
     /* Initializer */
