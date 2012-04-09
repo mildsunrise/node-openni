@@ -14,5 +14,6 @@ def build(bld):
     obj.cxxflags = ["-g","-D_FILE_OFFSET_BITS=64","-D_LARGEFILE_SOURCE","-Wall"]
     obj.target = "openni"
     obj.source = ["src/wrapper.cpp","src/wrapperUtils.cpp",
-                  "src/Context.cpp"]
+                  "src/Context.cpp",
+                  "src/ProductionNode.cpp"]
     obj.uselib = ["OpenNI"]

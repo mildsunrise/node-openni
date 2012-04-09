@@ -19,8 +19,8 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#ifndef NODE_XN_CONTEXT_H
-#define	NODE_XN_CONTEXT_H
+#ifndef NODE_XN_PRODUCTION_NODE_H
+#define	NODE_XN_PRODUCTION_NODE_H
 
 #include "wrapperUtils.h"
 
@@ -28,28 +28,24 @@ namespace node_xn {
 
     using namespace v8;
     using namespace node;
-
-    class Context: public ObjectWrap {
+    
+    class ProductionNode {
     public:
-        /* Factory method(s) */
-        static Context Init();
-
         /* Core methods */
-        inline Context(XnContextPtr const handle) : ptr(handle) {OnConstruct();}
-        ~Context();
-
+        inline ProductionNode(XnNodeHandle const handle) : ptr(handle) {OnConstruct();}
+        ~ProductionNode();
+        
         /* Copy ctor. */
-        inline Context(const Context& orig) : ptr(orig.ptr) {OnConstruct();}
-        inline Context operator=(const Context& orig) {return Context(orig);}
-
+        inline ProductionNode(const ProductionNode& orig) : ptr(orig.ptr) {OnConstruct();};
+        inline ProductionNode operator=(const ProductionNode& orig) {return ProductionNode(orig);}
+        
         /** WRAPPED METHODS **/
         static void INIT(Handle<Object> ctx);
-        static Handle<Value> initSync(const Arguments& args);
     private:
-        XnContextPtr const ptr;
         void OnConstruct();
+        XnNodeHandle const ptr;
     };
 
 }
 
-#endif	/* NODE_XN_CONTEXT_H */
+#endif	/* NODE_XN_PRODUCTION_NODE_H */

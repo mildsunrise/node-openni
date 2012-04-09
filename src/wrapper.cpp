@@ -23,6 +23,7 @@
 #include <node.h>
 
 #include "Context.h"
+#include "ProductionNode.h"
 
 namespace node_xn {
 
@@ -37,6 +38,7 @@ namespace node_xn {
 
             //Initialize every exposed class
             Context::INIT(module);
+            ProductionNode::INIT(module);
         }
 
         /** Finally, let Node.JS know about our module **/

@@ -27,7 +27,7 @@ namespace node_xn {
     using namespace node;
 
     Context Context::Init() {
-        XnContext* ptr;
+        XnContextPtr ptr;
         xnInit(&ptr);
         return Context(ptr);
     }

@@ -19,37 +19,41 @@
  *
  * ***** END GPL LICENSE BLOCK ***** */
 
-#ifndef NODE_XN_CONTEXT_H
-#define	NODE_XN_CONTEXT_H
-
-#include "wrapperUtils.h"
+#include "ProductionNode.h"
 
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
 
-    class Context: public ObjectWrap {
-    public:
-        /* Factory method(s) */
-        static Context Init();
+    void ProductionNode::OnConstruct() {
+        //FIXME: we should check if ptr == NULL
+        xnProductionNodeAddRef(this->ptr);
+    }
 
-        /* Core methods */
-        inline Context(XnContextPtr const handle) : ptr(handle) {OnConstruct();}
-        ~Context();
+    ProductionNode::~ProductionNode() {
+        xnProductionNodeRelease(this->ptr);
+    }
 
-        /* Copy ctor. */
-        inline Context(const Context& orig) : ptr(orig.ptr) {OnConstruct();}
-        inline Context operator=(const Context& orig) {return Context(orig);}
 
-        /** WRAPPED METHODS **/
-        static void INIT(Handle<Object> ctx);
-        static Handle<Value> initSync(const Arguments& args);
-    private:
-        XnContextPtr const ptr;
-        void OnConstruct();
-    };
+    /** WRAPPED METHODS **/
+
+    /* Initializer */
+    void ProductionNode::INIT(Handle<Object> ctx) {
+        HandleScope scope;
+
+        //1. Declare the class prototype
+        Local<FunctionTemplate> protoL = FunctionTemplate::New(new_default);
+        Persistent<FunctionTemplate> proto = v8::Persistent<FunctionTemplate>::New(protoL);
+        proto->InstanceTemplate()->SetInternalFieldCount(1);
+        proto->SetClassName(v8::String::NewSymbol("ProductionNode"));
+
+        //2. Add accessors
+
+        //3. Bind methods
+
+        //4. Finally, add the things to the target
+        ctx->Set(v8::String::NewSymbol("ProductionNode"),  proto->GetFunction());
+    }
 
 }
-
-#endif	/* NODE_XN_CONTEXT_H */
