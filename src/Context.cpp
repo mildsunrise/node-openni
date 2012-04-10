@@ -27,7 +27,7 @@ namespace node_xn {
     using namespace node;
 
     void Context::Init(XnContextPtr& handle) {
-        xnInit(&handle);//TODO: check status
+        check( xnInit(&handle) );
     }
 
     void Context::OnConstruct() {

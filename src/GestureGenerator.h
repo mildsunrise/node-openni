@@ -34,7 +34,7 @@ namespace node_xn {
     class GestureGenerator: public Generator {
     public:
         /* Factory method(s) */
-        static void create(const Context& ctx, XnNodeHandle& handle, XnNodeQuery* query);
+        static void Create(const Context& ctx, XnNodeHandle& handle, XnNodeQuery* query);
 
         /* Copy ctor. */
         inline GestureGenerator(const GestureGenerator& orig) : Generator(orig) {}

@@ -26,8 +26,8 @@ namespace node_xn {
     using namespace v8;
     using namespace node;
 
-    void GestureGenerator::create(const Context& ctx, XnNodeHandle& handle, XnNodeQuery* query) {
-        xnCreateGestureGenerator(ctx.ptr, &handle, query, NULL); //TODO: check status
+    void GestureGenerator::Create(const Context& ctx, XnNodeHandle& handle, XnNodeQuery* query) {
+        check( xnCreateGestureGenerator(ctx.ptr, &handle, query, NULL) );
     }
 
     Persistent<FunctionTemplate> INIT_GestureGenerator(Handle<Object> ctx, Persistent<FunctionTemplate> parent) {
@@ -35,7 +35,7 @@ namespace node_xn {
 
         //1. Declare the class prototype
         Local<FunctionTemplate> protoL = FunctionTemplate::New(new_default);
-        Persistent<FunctionTemplate> proto = v8::Persistent<FunctionTemplate>::New(protoL);
+        Persistent<FunctionTemplate> proto = Persistent<FunctionTemplate>::New(protoL);
         proto->InstanceTemplate()->SetInternalFieldCount(1);
         proto->Inherit(parent);
         proto->SetClassName(v8::String::NewSymbol("GestureGenerator"));
@@ -44,23 +44,34 @@ namespace node_xn {
 
         //3. Bind methods
 
-        //4. Finally, add the things to the target
-        ctx->Set(v8::String::NewSymbol("GestureGenerator"),  proto->GetFunction());
+        //4. Declare static factory method(s)
+        Local<FunctionTemplate> createL = FunctionTemplate::New(GestureGenerator::createGestureGeneratorSync, proto->GetFunction());
+        Persistent<FunctionTemplate> create = Persistent<FunctionTemplate>::New(createL);
+
+        //5. Finally, add the things to the target
+        ctx->Set(v8::String::NewSymbol("GestureGenerator"), proto->GetFunction());
+        ctx->Set(v8::String::NewSymbol("createGestureGeneratorSync"), create->GetFunction());
         return proto;
     }
-    
+
     Handle<Value> GestureGenerator::createGestureGeneratorSync(const Arguments& args) {
         HandleScope scope;
+        try {
 
-        //Extract arguments
-        Context& ctx = *(Context::Unwrap<Context>(args[0]->ToObject()));
-        
-        Handle<Object> instH = ((Function*)(*args.Data()))->NewInstance();
-        XnNodeHandle handle;
-        create(ctx, handle, NULL);
-        (new GestureGenerator(handle))->Wrap(instH); //FIXME: should we use wrap()?
-        
-        return instH;
+            //Check for arguments
+            checkArgumentsLen(args, 1);
+
+            //Extract arguments
+            Context& ctx = *(Context::Unwrap<Context>(args[0]->ToObject()));
+
+            Handle<Object> instH = ((Function*)(*args.Data()))->NewInstance();
+            XnNodeHandle handle;
+            Create(ctx, handle, NULL);
+            (new GestureGenerator(handle))->Wrap(instH); //FIXME: should we use WrapperUtils wrap()?
+
+            return instH;
+
+        } catch (Handle<Value> err) {return ThrowException(err);}
     }
 
 }

@@ -35,7 +35,11 @@ namespace node_xn {
     using namespace node;
 
     //wrap
-    //check
+
+    void check(XnStatus status);
+
+    void checkArgumentsLen(const Arguments& args, const int min);
+
     //checkValid
 
     Handle<Value> new_default(const Arguments& args);

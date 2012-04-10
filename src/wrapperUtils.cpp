@@ -21,13 +21,37 @@
 
 #include "wrapperUtils.h"
 
+#include <sstream>
+
 namespace node_xn {
 
     using namespace v8;
     using namespace node;
 
     //wrap
-    //check
+
+    void check(XnStatus status) {
+        if (status == XN_STATUS_OK) return;
+
+        throw Exception::Error(v8::String::New(xnGetStatusString(status))); //TODO
+    }
+
+    void checkArgumentsLen(const Arguments& args, const int min) {
+        const int len = args.Length();
+        if (len >= min) return;
+
+        const char* mmsg = " arguments";
+        if (min == 1) mmsg = " argument";
+
+        const char* lmsg = " were";
+        if (len == 1) lmsg = " was";
+
+        std::stringstream msg;
+        msg << "Function needs " << min << mmsg << ", but " << len << lmsg << " provided.";
+
+        throw Exception::TypeError(v8::String::New(msg.str().data()));
+    }
+
     //checkValid
 
     Handle<Value> new_default(const Arguments& args) {
